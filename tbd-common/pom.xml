@@ -16,6 +16,7 @@
     <properties>
         <!-- Framework versions - SINGLE SOURCE OF TRUTH -->
         <spring.version>5.3.39</spring.version>
+        <spring.security.version>5.8.11</spring.security.version>
         <struts.version>6.8.0</struts.version>
         <hibernate.version>5.6.15.Final</hibernate.version>
         <jackson.version>2.18.2</jackson.version>
@@ -28,6 +29,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.version>2.0.7</slf4j.version>
         <logback.version>1.4.8</logback.version>
+        <log4j.version>2.24.3</log4j.version>
+        <h2.version>2.2.224</h2.version>
+        <junit.version>5.10.2</junit.version>
+        <mockito.version>5.14.2</mockito.version>
+        <aspectj.version>1.9.22.1</aspectj.version>
     </properties>
 
     <modules>
@@ -39,11 +45,20 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Spring BOM -->
+            <!-- Spring Framework BOM: all spring-* modules (core, context, web, jdbc, tx, test, etc.) -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
                 <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <!-- Spring Security BOM: core, config, web, OAuth2 client/resource-server/jose/core, etc. -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-bom</artifactId>
+                <version>${spring.security.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -86,6 +101,18 @@
                 <version>${logback.version}</version>
             </dependency>
             
+            <!-- Log4j 2 (compile scope so you can import in code; version managed by BOM) -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            
             <!-- Commons -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -97,6 +124,45 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.11.0</version>
+            </dependency>
+            
+            <!-- H2 (in-memory / testing) -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+            
+            <!-- Testing -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            
+            <!-- AspectJ (Spring AOP) -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
