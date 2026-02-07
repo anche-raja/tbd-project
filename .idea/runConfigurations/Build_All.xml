@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Build All" type="CompoundRunConfigurationType">
     <toRun name="Build tbd-common" type="MavenRunConfiguration"/>
-    <toRun name="Build tbd-internal" type="MavenRunConfiguration"/>
+    <toRun name="Build tbd-external" type="MavenRunConfiguration"/>
   </configuration>
 </component>

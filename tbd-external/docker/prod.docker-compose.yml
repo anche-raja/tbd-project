@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  liberty-prod:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: tbd-external:latest
+    container_name: tbd-external-prod
+    ports:
+      - "9080:9080"    # HTTP
+      - "9443:9443"    # HTTPS
+    environment:
+      # Database configuration from environment or .env file
+      DB_URL: ${DB_URL:-jdbc:oracle:thin:@oracle-db:1521:ORCL}
+      DB_USERNAME: ${DB_USERNAME:-tbd_user}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-20}
+      
+      # Production logging
+      WLP_LOGGING_CONSOLE_LOGLEVEL: INFO
+      WLP_LOGGING_CONSOLE_FORMAT: json
+    volumes:
+      # Production logs
+      - liberty-prod-logs:/logs
+    networks:
+      - tbd-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9080/external/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Oracle Database (simulating production)
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim-faststart
+    container_name: tbd-oracle-prod
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD}
+      APP_USER: ${DB_USERNAME:-tbd_user}
+      APP_USER_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - oracle-prod-data:/opt/oracle/oradata
+    networks:
+      - tbd-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  liberty-prod-logs:
+    driver: local
+  oracle-prod-data:
+    driver: local
+
+networks:
+  tbd-network:
+    driver: bridge

@@ -12,9 +12,9 @@ tbd-project/
 │   ├── common-shared/       # Shared DTOs and utilities
 │   └── common-services/     # Common business services
 │
-└── tbd-internal/            # Internal application
-    ├── tbd-internal-war/    # Web application
-    ├── tbd-internal-ear/    # EAR packaging
+└── tbd-external/            # Internal application
+    ├── tbd-external-war/    # Web application
+    ├── tbd-external-ear/    # EAR packaging
     ├── docker/              # Docker configuration
     └── liberty/             # Liberty server config
 ```
@@ -32,7 +32,7 @@ tbd-project/
 - **Runtime**: WebSphere Liberty 24.0.0.12
 - **Database**: Oracle Database (JDBC)
 - **Build**: Maven 3.9+
-- **Deployment**: Docker + AWS ECS
+- **Deployment**: Local Docker (dev and prod Compose)
 
 ## Quick Start
 
@@ -47,11 +47,11 @@ This publishes the common modules to your local Maven repository.
 
 ### 2. Build and Run Application
 
-**IntelliJ (recommended):** Open the `tbd-project` folder in IntelliJ, run **Build All**, then start DEV via a Docker Compose run config for `tbd-internal/docker/dev.docker-compose.yml`. See **[INTELLIJ_SETUP.md](INTELLIJ_SETUP.md)**.
+**IntelliJ (recommended):** Open the `tbd-project` folder in IntelliJ, run **Build All**, then start DEV via a Docker Compose run config for `tbd-external/docker/dev.docker-compose.yml`. See **[INTELLIJ_SETUP.md](INTELLIJ_SETUP.md)**.
 
 **Terminal:**
 ```bash
-cd tbd-internal
+cd tbd-external
 mvn clean package -DskipTests
 cd docker
 docker-compose -f dev.docker-compose.yml up
@@ -59,8 +59,8 @@ docker-compose -f dev.docker-compose.yml up
 
 ### 3. Access Application
 
-- **Web UI**: http://localhost:9080/internal
-- **Health Check**: http://localhost:9080/internal/api/health
+- **Web UI**: http://localhost:9080/external
+- **Health Check**: http://localhost:9080/external/api/health
 - **Debug Port**: 7777
 
 ## Development Workflow
@@ -74,7 +74,7 @@ docker-compose -f dev.docker-compose.yml up
    cd tbd-common && mvn clean install
    
    # Build application
-   cd tbd-internal && mvn clean package -DskipTests
+   cd tbd-external && mvn clean package -DskipTests
    ```
 3. **Test** in DEV mode:
    ```bash
@@ -86,14 +86,14 @@ docker-compose -f dev.docker-compose.yml up
 
 1. **Import Projects**:
    - File → Open → `tbd-common`
-   - File → Open → `tbd-internal`
+   - File → Open → `tbd-external`
 
 2. **Configure Maven**:
    - Settings → Build Tools → Maven
    - Set Maven home directory
    - Enable "Import Maven projects automatically"
 
-3. **Run Configurations** (see tbd-internal/README.md for detailed setup):
+3. **Run Configurations** (see tbd-external/README.md for detailed setup):
    - DEV mode with hot reload
    - PROD mode with immutable image
    - Remote debugging on port 7777
@@ -105,8 +105,8 @@ This monorepo contains:
 ### Repository structure
 
 - `tbd-common` – shared libraries (version 1.2.0), built first and installed to local Maven repo
-- `tbd-internal` – main application (2.0.0-SNAPSHOT), depends on tbd-common
-- `tbd-external` / `tbd-vi` – additional apps can be created from the tbd-internal template
+- `tbd-external` – main application (2.0.0-SNAPSHOT), depends on tbd-common
+- `tbd-external` / `tbd-vi` – additional apps can be created from the tbd-external template
 
 To split into separate repositories later:
 
@@ -119,12 +119,12 @@ git commit -m "Initial commit - tbd-common"
 git remote add origin git@github.com:YOUR_ORG/tbd-common.git
 git push -u origin main
 
-# tbd-internal as its own repo
-cd ../tbd-internal
+# tbd-external as its own repo
+cd ../tbd-external
 git init
 git add .
-git commit -m "Initial commit - tbd-internal"
-git remote add origin git@github.com:YOUR_ORG/tbd-internal.git
+git commit -m "Initial commit - tbd-external"
+git remote add origin git@github.com:YOUR_ORG/tbd-external.git
 git push -u origin main
 ```
 
@@ -174,7 +174,7 @@ To upgrade Spring/Struts across all applications:
 
 2. **Update applications** when ready:
    ```bash
-   cd tbd-internal
+   cd tbd-external
    # Edit pom.xml
    # <tbd-common.version>2.0.0</tbd-common.version>
    mvn clean package
@@ -193,7 +193,7 @@ To upgrade Spring/Struts across all applications:
 - **Oracle DB included** for development
 
 ```bash
-cd tbd-internal/docker
+cd tbd-external/docker
 docker-compose -f dev.docker-compose.yml up
 ```
 
@@ -208,15 +208,14 @@ mvn package -DskipTests
 # Liberty auto-detects and reloads!
 ```
 
-### PROD Mode (Production Testing)
+### PROD Mode (Local production-like)
 
 - **EAR baked into image** (immutable)
-- **Same image goes to ECS**
 - **No debug ports**
-- **Production-like configuration**
+- **Production-like configuration** (same Docker setup, run locally)
 
 ```bash
-cd tbd-internal/docker
+cd tbd-external/docker
 docker-compose -f prod.docker-compose.yml up --build
 ```
 
@@ -225,7 +224,7 @@ docker-compose -f prod.docker-compose.yml up --build
 You can add GitHub Actions (or another CI) to:
 
 - **tbd-common**: Build, test, and optionally publish to a Maven repository (e.g. GitHub Packages)
-- **tbd-internal**: Build, test, build Docker image, push to ECR (or another registry), and deploy to ECS
+- **tbd-external**: Build, test, and build Docker image for local use
 
 ## Environment Variables
 
@@ -246,15 +245,15 @@ All applications use these environment variables:
 
 ## Creating Additional Applications
 
-To create `tbd-external` or `tbd-vi`:
+To create another app (e.g. `tbd-vi`) from this template:
 
-1. **Copy tbd-internal** as template:
+1. **Copy tbd-external** as template:
    ```bash
-   cp -r tbd-internal tbd-external
+   cp -r tbd-external tbd-vi
    ```
 
 2. **Update pom.xml** files:
-   - Change `artifactId` from `tbd-internal` to `tbd-external`
+   - Change `artifactId` from `tbd-external` to the new app name (e.g. `tbd-vi`)
    - Update package names in Java code
    - Update Docker container names
 
@@ -264,50 +263,26 @@ To create `tbd-external` or `tbd-vi`:
 
 4. **Build and test**:
    ```bash
-   cd tbd-external
+   cd tbd-vi
    mvn clean package
    cd docker
    docker-compose -f dev.docker-compose.yml up
    ```
 
-## Production Deployment (AWS ECS)
+## Local Docker (DEV & PROD)
 
-### Prerequisites
-
-1. **ECR Repository**: Create in AWS Console
-2. **ECS Cluster**: Set up cluster and task definition
-3. **RDS Oracle**: Set up database
-4. **Secrets Manager**: Store DB credentials
-5. **Load Balancer**: Configure ALB
-
-### Deployment Process
-
-1. **CI pipeline** builds and pushes image to ECR
-2. **Manual trigger** updates ECS service
-3. **ECS** pulls new image and performs rolling deployment
-4. **Health checks** verify deployment
-5. **Rollback** if health checks fail
-
-### Manual Deployment
+Run the app with **DEV** (hot reload) or **PROD** (baked image) Compose:
 
 ```bash
-# Build and tag
-docker build -t tbd-internal:latest -f docker/Dockerfile .
-docker tag tbd-internal:latest \
-  123456789012.dkr.ecr.us-east-1.amazonaws.com/tbd-internal:latest
+cd tbd-external/docker
+# DEV: volume-mounted EAR, debug port 7777
+docker-compose -f dev.docker-compose.yml up
 
-# Push to ECR
-aws ecr get-login-password --region us-east-1 | \
-  docker login --username AWS --password-stdin \
-  123456789012.dkr.ecr.us-east-1.amazonaws.com
-docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/tbd-internal:latest
-
-# Update ECS
-aws ecs update-service \
-  --cluster tbd-cluster \
-  --service tbd-internal-service \
-  --force-new-deployment
+# PROD-like: built image, no debug
+docker-compose -f prod.docker-compose.yml up --build
 ```
+
+Database and app URLs are in the main Quick Start section.
 
 ## Troubleshooting
 
@@ -329,7 +304,7 @@ aws ecs update-service \
 
 4. **Liberty won't start**:
    - Check Docker logs: `docker-compose logs liberty-dev`
-   - Verify EAR is built: `ls tbd-internal-ear/target/`
+   - Verify EAR is built: `ls tbd-external-ear/target/`
    - Check server.xml for errors
 
 ### Getting Help

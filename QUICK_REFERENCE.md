@@ -5,7 +5,7 @@
 ```
 tbd-project/
 ├── tbd-common/           # Shared libraries (Spring 5.3.30, Struts 2.5.32)
-├── tbd-internal/         # Internal application (WAR+EAR on Liberty)
+├── tbd-external/         # Internal application (WAR+EAR on Liberty)
 ├── pom.xml               # Root aggregator (open this folder in IntelliJ)
 ├── INTELLIJ_SETUP.md     # IntelliJ run configs and workflow
 ├── README.md             # Master documentation
@@ -16,8 +16,8 @@ tbd-project/
 
 1. **Open** `tbd-project` in IntelliJ (File → Open).
 2. **Build**: run the **Build All** run configuration.
-3. **Start**: add Docker Compose config for `tbd-internal/docker/dev.docker-compose.yml` and run it, or: `cd tbd-internal/docker && docker-compose -f dev.docker-compose.yml up`
-4. **Access**: http://localhost:9080/internal  
+3. **Start**: add Docker Compose config for `tbd-external/docker/dev.docker-compose.yml` and run it, or: `cd tbd-external/docker && docker-compose -f dev.docker-compose.yml up`
+4. **Access**: http://localhost:9080/external  
 See **[INTELLIJ_SETUP.md](INTELLIJ_SETUP.md)** for details.
 
 ## Essential Commands
@@ -25,19 +25,19 @@ See **[INTELLIJ_SETUP.md](INTELLIJ_SETUP.md)** for details.
 ### Build
 ```bash
 cd tbd-common && mvn clean install      # Build common libs
-cd tbd-internal && mvn clean package    # Build application
+cd tbd-external && mvn clean package    # Build application
 ```
 
 ### Run DEV (Hot Reload)
 ```bash
-cd tbd-internal/docker
+cd tbd-external/docker
 docker-compose -f dev.docker-compose.yml up
 # Port 9080 (HTTP), 7777 (Debug)
 ```
 
 ### Run PROD (Immutable Image)
 ```bash
-cd tbd-internal/docker
+cd tbd-external/docker
 docker-compose -f prod.docker-compose.yml up --build
 # Port 9080 (HTTP)
 ```
@@ -50,9 +50,9 @@ mvn package -DskipTests
 
 ## Key URLs
 
-- **Home**: http://localhost:9080/internal
-- **Health**: http://localhost:9080/internal/api/health
-- **DB Test**: http://localhost:9080/internal/api/db-test
+- **Home**: http://localhost:9080/external
+- **Health**: http://localhost:9080/external/api/health
+- **DB Test**: http://localhost:9080/external/api/db-test
 
 ## Debug in IntelliJ
 
@@ -72,7 +72,7 @@ docker-compose logs -f liberty-dev
 
 ## Configuration
 
-Edit `tbd-internal/docker/.env`:
+Edit `tbd-external/docker/.env`:
 ```bash
 DB_URL=jdbc:oracle:thin:@host:1521:SID
 DB_USERNAME=your_user
@@ -126,20 +126,20 @@ cd tbd-common && mvn clean install
 ## File Locations
 
 **Application Code**
-- Controllers: `tbd-internal-war/src/main/java/.../controller/`
-- Services: `tbd-internal-war/src/main/java/.../service/`
-- Actions (Struts): `tbd-internal-war/src/main/java/.../action/`
-- JSPs: `tbd-internal-war/src/main/webapp/WEB-INF/jsp/`
+- Controllers: `tbd-external-war/src/main/java/.../controller/`
+- Services: `tbd-external-war/src/main/java/.../service/`
+- Actions (Struts): `tbd-external-war/src/main/java/.../action/`
+- JSPs: `tbd-external-war/src/main/webapp/WEB-INF/jsp/`
 
 **Configuration**
-- Spring: `tbd-internal-war/src/main/java/.../config/AppConfig.java`
-- Struts: `tbd-internal-war/src/main/resources/struts.xml`
-- Liberty: `tbd-internal/liberty/server.xml`
-- Database: `tbd-internal/docker/.env`
+- Spring: `tbd-external-war/src/main/java/.../config/AppConfig.java`
+- Struts: `tbd-external-war/src/main/resources/struts.xml`
+- Liberty: `tbd-external/liberty/server.xml`
+- Database: `tbd-external/docker/.env`
 
 **Build Output**
-- WAR: `tbd-internal-war/target/tbd-internal.war`
-- EAR: `tbd-internal-ear/target/tbd-internal.ear`
+- WAR: `tbd-external-war/target/tbd-external.war`
+- EAR: `tbd-external-ear/target/tbd-external.ear`
 
 ## Technology Versions
 
@@ -159,7 +159,7 @@ cd tbd-common && mvn clean install
 2. ✅ Read `GETTING_STARTED.md`
 3. ✅ Start DEV mode and explore
 4. ✅ Review `README.md` for detailed docs
-5. ✅ Check `tbd-internal/README.md` for deployment
+5. ✅ Check `tbd-external/README.md` for deployment
 
 ## Support Resources
 

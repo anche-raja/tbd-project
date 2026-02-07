@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build tbd-external" type="MavenRunConfiguration" factoryName="Maven">
+    <option name="workingDirectory" value="$PROJECT_DIR$/tbd-external"/>
+    <option name="commandLineOptions" value="clean package -DskipTests"/>
+    <option name="profiles"/>
+    <option name="runnerParameters"/>
+    <MavenRunnerSettings>
+      <option name="jreName" value="Use Project JDK"/>
+    </MavenRunnerSettings>
+  </configuration>
+</component>

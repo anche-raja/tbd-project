@@ -17,25 +17,25 @@ Before starting, ensure you have:
 ### 1. Open in IntelliJ IDEA
 
 1. **File → Open** and select the **tbd-project** folder.
-2. Wait for Maven to import (root `pom.xml` includes `tbd-common` and `tbd-internal`).
+2. Wait for Maven to import (root `pom.xml` includes `tbd-common` and `tbd-external`).
 
 **Detailed IntelliJ steps:** see **[INTELLIJ_SETUP.md](INTELLIJ_SETUP.md)**.
 
 ### 2. Build the project
 
-In IntelliJ, use the run configuration **Build All** (or run **Build tbd-common** then **Build tbd-internal**).  
-First time: copy `tbd-internal/docker/.env.example` to `tbd-internal/docker/.env` if needed.
+In IntelliJ, use the run configuration **Build All** (or run **Build tbd-common** then **Build tbd-external**).  
+First time: copy `tbd-external/docker/.env.example` to `tbd-external/docker/.env` if needed.
 
 ### 3. Start the application
 
-- **Option A:** Add a **Docker Compose** run configuration for `tbd-internal/docker/dev.docker-compose.yml` and run it (see [INTELLIJ_SETUP.md](INTELLIJ_SETUP.md)).
-- **Option B:** In a terminal: `cd tbd-internal/docker && docker-compose -f dev.docker-compose.yml up`
+- **Option A:** Add a **Docker Compose** run configuration for `tbd-external/docker/dev.docker-compose.yml` and run it (see [INTELLIJ_SETUP.md](INTELLIJ_SETUP.md)).
+- **Option B:** In a terminal: `cd tbd-external/docker && docker-compose -f dev.docker-compose.yml up`
 
 ### 4. Access the application
 
 Open your browser:
-- **Web UI**: http://localhost:9080/internal
-- **Health Check**: http://localhost:9080/internal/api/health
+- **Web UI**: http://localhost:9080/external
+- **Health Check**: http://localhost:9080/external/api/health
 
 🎉 **You're done!** The application is running.
 
@@ -49,7 +49,7 @@ Contains reusable components:
 - **common-services** - Business services
 - **tbd-common-bom** - Version management
 
-### tbd-internal (Application)
+### tbd-external (Application)
 
 Full-stack Java EE application:
 - **Spring MVC** REST APIs
@@ -65,11 +65,11 @@ Full-stack Java EE application:
 
 ```bash
 # Terminal 1: Keep server running
-cd tbd-internal/docker
+cd tbd-external/docker
 docker-compose -f dev.docker-compose.yml up
 
 # Terminal 2: Make changes, then rebuild
-cd tbd-internal
+cd tbd-external
 # Edit your code...
 mvn package -DskipTests
 # Liberty auto-reloads!
@@ -89,7 +89,7 @@ docker-compose -f dev.docker-compose.yml up
 
 1. **Start DEV mode**:
    ```bash
-   cd tbd-internal/docker
+   cd tbd-external/docker
    docker-compose -f dev.docker-compose.yml up
    ```
 
@@ -108,9 +108,9 @@ tbd-project/
 │   ├── common-services/     # Business services
 │   └── tbd-common-bom/      # BOM for version management
 │
-├── tbd-internal/            # Internal application
-│   ├── tbd-internal-war/    # Web application (Spring + Struts)
-│   ├── tbd-internal-ear/    # EAR packaging
+├── tbd-external/            # Internal application
+│   ├── tbd-external-war/    # Web application (Spring + Struts)
+│   ├── tbd-external-ear/    # EAR packaging
 │   ├── docker/              # Docker configs (DEV & PROD)
 │   ├── liberty/             # Liberty server.xml
 │
@@ -130,7 +130,7 @@ cd tbd-common
 mvn clean install
 
 # Build application
-cd ../tbd-internal
+cd ../tbd-external
 mvn clean package
 ```
 
@@ -138,7 +138,7 @@ mvn clean package
 
 ```bash
 # Run all tests
-cd tbd-internal
+cd tbd-external
 mvn test
 
 # Run specific test
@@ -149,11 +149,11 @@ mvn test -Dtest=InternalServiceTest
 
 ```bash
 # DEV environment
-cd tbd-internal/docker
+cd tbd-external/docker
 docker-compose -f dev.docker-compose.yml logs -f liberty-dev
 
 # Or follow live logs
-docker exec -it tbd-internal-dev tail -f /logs/messages.log
+docker exec -it tbd-external-dev tail -f /logs/messages.log
 ```
 
 ### Stop the Application
@@ -163,14 +163,14 @@ docker exec -it tbd-internal-dev tail -f /logs/messages.log
 Ctrl+C
 
 # Or from another terminal:
-cd tbd-internal/docker
+cd tbd-external/docker
 docker-compose -f dev.docker-compose.yml down
 ```
 
 ### Clean Restart
 
 ```bash
-cd tbd-internal/docker
+cd tbd-external/docker
 
 # Stop and remove volumes
 docker-compose -f dev.docker-compose.yml down -v
@@ -183,7 +183,7 @@ docker-compose -f dev.docker-compose.yml up
 
 ### Web Interface
 
-Navigate to: http://localhost:9080/internal
+Navigate to: http://localhost:9080/external
 
 You'll see:
 - Application status
@@ -196,16 +196,16 @@ Test with curl:
 
 ```bash
 # Health check
-curl http://localhost:9080/internal/api/health
+curl http://localhost:9080/external/api/health
 
 # Database test
-curl http://localhost:9080/internal/api/db-test
+curl http://localhost:9080/external/api/db-test
 
 # IP validation
-curl "http://localhost:9080/internal/api/validate-ip?ip=192.168.1.1"
+curl "http://localhost:9080/external/api/validate-ip?ip=192.168.1.1"
 
 # Sample data
-curl http://localhost:9080/internal/api/sample-data
+curl http://localhost:9080/external/api/sample-data
 ```
 
 ## Database
@@ -247,7 +247,7 @@ SELECT SYSDATE FROM DUAL;
 
 ### Change Database Connection
 
-Edit `tbd-internal/docker/.env`:
+Edit `tbd-external/docker/.env`:
 
 ```bash
 DB_URL=jdbc:oracle:thin:@your-db-host:1521:YOUR_SID
@@ -257,7 +257,7 @@ DB_PASSWORD=your_password
 
 ### Change Ports
 
-Edit `tbd-internal/docker/dev.docker-compose.yml`:
+Edit `tbd-external/docker/dev.docker-compose.yml`:
 
 ```yaml
 ports:
@@ -269,7 +269,7 @@ ports:
 ### Add Dependencies
 
 1. Add to `tbd-common/pom.xml` (if shared)
-2. Or add to `tbd-internal-war/pom.xml` (if app-specific)
+2. Or add to `tbd-external-war/pom.xml` (if app-specific)
 3. Rebuild:
    ```bash
    mvn clean package
@@ -279,9 +279,9 @@ ports:
 
 **Full guide:** **[INTELLIJ_SETUP.md](INTELLIJ_SETUP.md)**
 
-- **Open** the **tbd-project** folder (not just tbd-internal) so both modules are loaded.
-- Use the included run configs: **Build All**, **Build tbd-common**, **Build tbd-internal**, **Remote Debug Liberty**.
-- Add a **Docker Compose** run config for `tbd-internal/docker/dev.docker-compose.yml` to start DEV from the IDE.
+- **Open** the **tbd-project** folder (not just tbd-external) so both modules are loaded.
+- Use the included run configs: **Build All**, **Build tbd-common**, **Build tbd-external**, **Remote Debug Liberty**.
+- Add a **Docker Compose** run config for `tbd-external/docker/dev.docker-compose.yml` to start DEV from the IDE.
 
 ### Recommended plugins
 
@@ -315,7 +315,7 @@ lsof -i :9080
 **Solution**: Check database is running
 
 ```bash
-cd tbd-internal/docker
+cd tbd-external/docker
 docker-compose ps
 
 # If oracle-db is not running:
@@ -330,33 +330,32 @@ docker-compose up oracle-db
 docker-compose -f dev.docker-compose.yml logs liberty-dev
 
 # Look for errors in messages.log
-docker exec -it tbd-internal-dev cat /logs/messages.log
+docker exec -it tbd-external-dev cat /logs/messages.log
 ```
 
 ### "Application builds but 404 error"
 
 **Solution**: Check context root
 
-The application runs at: `/internal` not `/`
+The application runs at: `/external` not `/`
 
-Correct URL: http://localhost:9080/internal
+Correct URL: http://localhost:9080/external
 
 ## Next Steps
 
 ### Production Deployment
 
-See `tbd-internal/README.md` for:
-- Building production Docker image
-- Deploying to AWS ECS
-- CI/CD pipeline setup
+See `tbd-external/README.md` for:
+- Building and running with local Docker (DEV and PROD Compose)
+- Database and configuration details
 
 ### Create New Application
 
-To create `tbd-external`:
+To create another app (e.g. `tbd-vi`) from the tbd-external template:
 
 ```bash
-cp -r tbd-internal tbd-external
-cd tbd-external
+cp -r tbd-external tbd-vi
+cd tbd-vi
 # Update pom.xml files
 # Change artifactId and application names
 # Update Docker container names
@@ -374,7 +373,7 @@ See master `README.md` for:
 ### Documentation
 
 - **Master README**: `README.md`
-- **Application README**: `tbd-internal/README.md`
+- **Application README**: `tbd-external/README.md`
 - **Common README**: `tbd-common/README.md`
 
 ### Resources

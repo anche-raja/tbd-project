@@ -11,10 +11,10 @@
     <packaging>pom</packaging>
 
     <name>TBD Project</name>
-    <description>Root aggregator for IntelliJ and Maven. Build order: tbd-common first, then tbd-internal.</description>
+    <description>Root aggregator for IntelliJ and Maven. Build order: tbd-common first, then tbd-external.</description>
 
     <modules>
         <module>tbd-common</module>
-        <module>tbd-internal</module>
+        <module>tbd-external</module>
     </modules>
 </project>
