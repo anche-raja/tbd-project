@@ -61,13 +61,12 @@ Add to your application's `pom.xml`:
 mvn clean install
 ```
 
-## Publishing to GitLab Registry
+## Publishing
 
-The CI/CD pipeline automatically publishes to GitLab Maven registry on commits to `main` and on tags.
+To publish to a Maven repository (e.g. GitHub Packages or your own Nexus), configure `distributionManagement` in the parent `pom.xml` and run:
 
-Manual publish:
 ```bash
-mvn clean deploy -DskipTests -s ci_settings.xml
+mvn clean deploy -DskipTests
 ```
 
 ## Framework Upgrades

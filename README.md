@@ -102,40 +102,29 @@ docker-compose -f dev.docker-compose.yml up
 
 This monorepo contains:
 
-### Separate Git Repositories (in GitLab)
+### Repository structure
 
-In actual deployment, these would be separate GitLab repositories:
+- `tbd-common` – shared libraries (version 1.2.0), built first and installed to local Maven repo
+- `tbd-internal` – main application (2.0.0-SNAPSHOT), depends on tbd-common
+- `tbd-external` / `tbd-vi` – additional apps can be created from the tbd-internal template
 
-- `tbd-common` → GitLab repo #1
-  - Published to GitLab Maven Registry
-  - Version: 1.2.0
-
-- `tbd-internal` → GitLab repo #2
-  - Consumes tbd-common from registry
-  - Version: 2.0.0-SNAPSHOT
-
-- `tbd-external` → GitLab repo #3 (template provided)
-- `tbd-vi` → GitLab repo #4 (template provided)
-
-### Current Structure (Development)
-
-For development convenience, all modules are in one directory. To split into separate repos:
+To split into separate repositories later:
 
 ```bash
-# tbd-common becomes its own repo
+# tbd-common as its own repo
 cd tbd-common
 git init
 git add .
 git commit -m "Initial commit - tbd-common"
-git remote add origin <tbd-common-gitlab-url>
+git remote add origin git@github.com:YOUR_ORG/tbd-common.git
 git push -u origin main
 
-# tbd-internal becomes its own repo
+# tbd-internal as its own repo
 cd ../tbd-internal
 git init
 git add .
 git commit -m "Initial commit - tbd-internal"
-git remote add origin <tbd-internal-gitlab-url>
+git remote add origin git@github.com:YOUR_ORG/tbd-internal.git
 git push -u origin main
 ```
 
@@ -231,23 +220,12 @@ cd tbd-internal/docker
 docker-compose -f prod.docker-compose.yml up --build
 ```
 
-## GitLab CI/CD
+## CI/CD
 
-Each repository has its own `.gitlab-ci.yml`:
+You can add GitHub Actions (or another CI) to:
 
-### tbd-common Pipeline
-
-1. **Build**: Compile all modules
-2. **Test**: Run unit tests
-3. **Publish**: Push to GitLab Maven Registry
-
-### Application Pipeline (tbd-internal)
-
-1. **Build**: Maven package EAR
-2. **Test**: Run tests
-3. **Package**: Build Docker image → push to GitLab Container Registry
-4. **Deploy DEV**: Update ECS service (manual)
-5. **Deploy PROD**: Update ECS service (manual, tags only)
+- **tbd-common**: Build, test, and optionally publish to a Maven repository (e.g. GitHub Packages)
+- **tbd-internal**: Build, test, build Docker image, push to ECR (or another registry), and deploy to ECS
 
 ## Environment Variables
 
@@ -304,7 +282,7 @@ To create `tbd-external` or `tbd-vi`:
 
 ### Deployment Process
 
-1. **GitLab CI** builds and pushes image to ECR
+1. **CI pipeline** builds and pushes image to ECR
 2. **Manual trigger** updates ECS service
 3. **ECS** pulls new image and performs rolling deployment
 4. **Health checks** verify deployment
@@ -358,7 +336,7 @@ aws ecs update-service \
 
 - **Documentation**: See individual README.md files
 - **Logs**: `docker-compose logs -f <service>`
-- **Issues**: GitLab issue tracker
+- **Issues**: GitHub Issues
 
 ## Project Roadmap
 
@@ -367,7 +345,7 @@ aws ecs update-service \
 - ✅ Spring + Struts integration
 - ✅ Docker containerization
 - ✅ DEV/PROD compose files
-- ✅ GitLab CI/CD pipelines
+- ✅ CI/CD (e.g. GitHub Actions)
 
 ### Phase 2: Framework Upgrades
 - ⏳ Spring 5 → Spring 6

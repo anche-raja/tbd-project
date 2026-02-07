@@ -287,7 +287,6 @@ ports:
 
 - **Docker** – manage containers and Compose from the IDE
 - **Maven Helper** – dependency analysis
-- **GitLab** – if using GitLab
 
 ## Troubleshooting
 
@@ -349,7 +348,7 @@ Correct URL: http://localhost:9080/internal
 See `tbd-internal/README.md` for:
 - Building production Docker image
 - Deploying to AWS ECS
-- GitLab CI/CD pipeline setup
+- CI/CD pipeline setup
 
 ### Create New Application
 
@@ -386,7 +385,7 @@ See master `README.md` for:
 
 ### Support
 
-Create an issue in GitLab with:
+Open an issue on GitHub with:
 - What you were trying to do
 - What went wrong
 - Error messages

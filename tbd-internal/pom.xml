@@ -28,13 +28,6 @@
         <module>tbd-internal-ear</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/YOUR_TBD_COMMON_PROJECT_ID/packages/maven</url>
-        </repository>
-    </repositories>
-
     <dependencyManagement>
         <dependencies>
             <!-- Import tbd-common BOM - gets ALL framework versions -->

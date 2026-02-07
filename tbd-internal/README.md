@@ -217,7 +217,7 @@ The Docker Compose files include an Oracle XE container for development:
 
 ### AWS ECS Deployment
 
-The GitLab CI/CD pipeline automates deployment:
+A CI/CD pipeline (e.g. GitHub Actions) can automate deployment:
 
 1. **Build**: Maven builds EAR
 2. **Test**: Run unit tests
@@ -451,8 +451,7 @@ Edit `liberty/server.xml`:
 ## Support
 
 - **Documentation**: See `/docs` folder
-- **Issues**: GitLab Issues
-- **Wiki**: GitLab Wiki
+- **Issues**: GitHub Issues
 
 ## License
 
