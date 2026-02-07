@@ -1,0 +1,75 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Logs
+*.log
+logs/
+
+# Docker
+.env
+!.env.example
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+# Oracle JDBC driver (download separately)
+**/ojdbc*.jar
+!docker/ojdbc8.jar
+
+# Liberty
+liberty/wlp/
+liberty/servers/*/logs/
+liberty/servers/*/workarea/
+liberty/servers/*/apps/expanded/
+
+# Application specific
+*.ear
+*.war

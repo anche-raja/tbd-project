@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.yourcompany.tbd</groupId>
+    <artifactId>tbd-project</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>TBD Project</name>
+    <description>Root aggregator for IntelliJ and Maven. Build order: tbd-common first, then tbd-internal.</description>
+
+    <modules>
+        <module>tbd-common</module>
+        <module>tbd-internal</module>
+    </modules>
+</project>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="TBD Internal Server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>servlet-4.0</feature>
+        <feature>jsp-2.3</feature>
+        <feature>jndi-1.0</feature>
+        <feature>jdbc-4.2</feature>
+        <feature>jpa-2.2</feature>
+        <feature>localConnector-1.0</feature>
+        <feature>appSecurity-3.0</feature>
+    </featureManager>
+
+    <!-- HTTP Endpoint -->
+    <httpEndpoint id="defaultHttpEndpoint"
+                  host="*"
+                  httpPort="9080"
+                  httpsPort="9443">
+        <tcpOptions soReuseAddr="true"/>
+    </httpEndpoint>
+
+    <!-- Application -->
+    <enterpriseApplication id="tbd-internal" 
+                          location="tbd-internal.ear" 
+                          name="tbd-internal">
+        <classloader delegation="parentLast" />
+    </enterpriseApplication>
+
+    <!-- Oracle DataSource -->
+    <library id="OracleLib">
+        <fileset dir="${server.config.dir}/lib" includes="ojdbc*.jar"/>
+    </library>
+
+    <dataSource id="OracleDS" jndiName="jdbc/OracleDS">
+        <jdbcDriver libraryRef="OracleLib"/>
+        <properties.oracle URL="${env.DB_URL}" 
+                          user="${env.DB_USERNAME}" 
+                          password="${env.DB_PASSWORD}"/>
+        <connectionManager maxPoolSize="${env.DB_POOL_SIZE}" 
+                          minPoolSize="2"
+                          connectionTimeout="30s"
+                          maxIdleTime="10m"
+                          agedTimeout="30m"/>
+    </dataSource>
+
+    <!-- Logging -->
+    <logging 
+        traceSpecification="*=info:com.yourcompany.tbd.*=fine"
+        maxFileSize="20"
+        maxFiles="10"
+        consoleLogLevel="INFO" />
+
+    <!-- JVM Options -->
+    <javaPermGen size="256m" maxSize="512m" />
+
+    <!-- Web Container -->
+    <webContainer deferServletLoad="false" 
+                  trustHostHeaderPort="true">
+        <sessionManager>
+            <sessionCookie httpOnly="true" secure="false"/>
+        </sessionManager>
+    </webContainer>
+
+    <!-- Application Security (Basic Auth example - customize as needed) -->
+    <!-- 
+    <basicRegistry id="basic" realm="BasicRealm">
+        <user name="admin" password="{xor}Lz4sLCgwLTs=" />
+    </basicRegistry>
+    
+    <application-bnd id="tbd-internal">
+        <security-role name="admin">
+            <user name="admin"/>
+        </security-role>
+    </application-bnd>
+    -->
+
+</server>

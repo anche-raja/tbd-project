@@ -1,0 +1,48 @@
+stages:
+  - build
+  - test
+  - publish
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .m2/repository/
+
+build:
+  stage: build
+  image: maven:3.9-eclipse-temurin-11
+  script:
+    - mvn $MAVEN_CLI_OPTS clean compile
+  artifacts:
+    paths:
+      - "**/target/*.jar"
+    expire_in: 1 hour
+
+test:
+  stage: test
+  image: maven:3.9-eclipse-temurin-11
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+  artifacts:
+    reports:
+      junit:
+        - "**/target/surefire-reports/TEST-*.xml"
+    paths:
+      - "**/target/surefire-reports/"
+    expire_in: 1 week
+
+publish:
+  stage: publish
+  image: maven:3.9-eclipse-temurin-11
+  only:
+    - main
+    - tags
+  script:
+    - mvn $MAVEN_CLI_OPTS deploy -DskipTests -s ci_settings.xml
+  artifacts:
+    paths:
+      - "**/target/*.jar"

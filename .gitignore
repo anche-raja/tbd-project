@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Maven (root level, if any)
+target/
+pom.xml.tag
+release.properties
+
+# IDE - keep .idea/runConfigurations for IntelliJ; ignore other IDE cruft
+*.iml
+*.iws
+*.ipr
+out/
+
+# Logs and temp
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+
+# Windows
+Thumbs.db
+Desktop.ini
