@@ -2,18 +2,18 @@ version: '3.8'
 
 services:
   liberty-dev:
-    image: icr.io/appcafe/websphere-liberty:24.0.0.12-full-java11-openj9-ubi
+    image: icr.io/appcafe/websphere-liberty:24.0.0.12-full-java8-openj9-ubi
     container_name: tbd-external-dev
     ports:
       - "9080:9080"    # HTTP
       - "9443:9443"    # HTTPS
       - "7777:7777"    # Debug port
     environment:
-      # Database configuration
-      DB_URL: jdbc:oracle:thin:@oracle-db:1521:ORCL
-      DB_USERNAME: tbd_user
+      # Database configuration (from .env or defaults)
+      DB_URL: ${DB_URL:-jdbc:oracle:thin:@oracle-db:1521:ORCL}
+      DB_USERNAME: ${DB_USERNAME:-tbd_user}
       DB_PASSWORD: ${DB_PASSWORD:-change_me}
-      DB_POOL_SIZE: 10
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-10}
       
       # Debug configuration
       WLP_DEBUG_ADDRESS: "*:7777"
@@ -54,7 +54,7 @@ services:
       - "1521:1521"
     environment:
       ORACLE_PASSWORD: ${ORACLE_PASSWORD:-OraclePass123}
-      APP_USER: tbd_user
+      APP_USER: ${DB_USERNAME:-tbd_user}
       APP_USER_PASSWORD: ${DB_PASSWORD:-change_me}
     volumes:
       - oracle-dev-data:/opt/oracle/oradata

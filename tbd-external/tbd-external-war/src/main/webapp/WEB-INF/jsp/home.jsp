@@ -100,8 +100,8 @@
         <div class="info">
             <p><strong>Technology Stack:</strong></p>
             <ul>
-                <li>Spring Framework 5.3.30</li>
-                <li>Struts 2.5.32</li>
+                <li>Spring Framework 5.3.39</li>
+                <li>Struts 6.8.0</li>
                 <li>WebSphere Liberty</li>
                 <li>Oracle Database</li>
             </ul>

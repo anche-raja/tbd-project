@@ -6,7 +6,7 @@ This guide will help you get up and running with the TBD project in under 10 min
 
 Before starting, ensure you have:
 
-- ✅ **Java 11** or higher installed
+- ✅ **Java 8** or higher installed
 - ✅ **Maven 3.6+** installed
 - ✅ **Docker** and **Docker Compose** installed
 - ✅ **IntelliJ IDEA** (recommended) or another IDE

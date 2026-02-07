@@ -14,7 +14,7 @@ echo ""
 echo "Checking prerequisites..."
 
 if ! command -v java &> /dev/null; then
-    echo "❌ Java not found. Please install Java 11 or higher."
+    echo "❌ Java not found. Please install Java 8 or higher."
     exit 1
 fi
 echo "✅ Java found: $(java -version 2>&1 | head -n 1)"

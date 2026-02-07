@@ -5,7 +5,7 @@ Enterprise Java EE application running on WebSphere Liberty with Spring Framewor
 ## Architecture
 
 - **Runtime**: WebSphere Liberty 24.0.0.12
-- **Frameworks**: Spring 5.3.30, Struts 2.5.32
+- **Frameworks**: Spring 5.3.39, Struts 6.8.0, Jackson 2.18.2
 - **Database**: Oracle Database (via JDBC)
 - **Build**: Maven multi-module (WAR + EAR)
 - **Deployment**: Local Docker (dev and prod Compose)
@@ -35,7 +35,7 @@ tbd-external/
 
 ## Prerequisites
 
-- **Java 11** or higher
+- **Java 8** or higher
 - **Maven 3.6+**
 - **Docker** and **Docker Compose**
 - **IntelliJ IDEA** (recommended)

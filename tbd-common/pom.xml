@@ -15,14 +15,14 @@
 
     <properties>
         <!-- Framework versions - SINGLE SOURCE OF TRUTH -->
-        <spring.version>5.3.30</spring.version>
-        <struts.version>2.5.32</struts.version>
+        <spring.version>5.3.39</spring.version>
+        <struts.version>6.8.0</struts.version>
         <hibernate.version>5.6.15.Final</hibernate.version>
-        <jackson.version>2.15.2</jackson.version>
+        <jackson.version>2.18.2</jackson.version>
         
         <!-- Java version -->
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         
         <!-- Other common properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

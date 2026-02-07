@@ -4,7 +4,7 @@
 
 ```
 tbd-project/
-├── tbd-common/           # Shared libraries (Spring 5.3.30, Struts 2.5.32)
+├── tbd-common/           # Shared libraries (Spring 5.3.39, Struts 6.8.0, Jackson 2.18.2)
 ├── tbd-external/         # Internal application (WAR+EAR on Liberty)
 ├── pom.xml               # Root aggregator (open this folder in IntelliJ)
 ├── INTELLIJ_SETUP.md     # IntelliJ run configs and workflow
@@ -145,10 +145,11 @@ cd tbd-common && mvn clean install
 
 | Component | Version |
 |-----------|---------|
-| Java | 11 |
+| Java | 8 |
 | Maven | 3.9+ |
-| Spring | 5.3.30 |
-| Struts | 2.5.32 |
+| Spring | 5.3.39 |
+| Struts | 6.8.0 |
+| Jackson | 2.18.2 |
 | Hibernate | 5.6.15 |
 | Liberty | 24.0.0.12 |
 | Oracle JDBC | 21.9.0.0 |

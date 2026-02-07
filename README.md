@@ -22,14 +22,14 @@ tbd-project/
 ## Technology Stack
 
 ### Common Libraries (tbd-common)
-- **Spring Framework**: 5.3.30
-- **Struts 2**: 2.5.32
+- **Spring Framework**: 5.3.39
+- **Struts**: 6.8.0
 - **Hibernate**: 5.6.15.Final
-- **Jackson**: 2.15.2
-- **Java**: 11
+- **Jackson**: 2.18.2
+- **Java**: 8
 
 ### Applications
-- **Runtime**: WebSphere Liberty 24.0.0.12
+- **Runtime**: WebSphere Liberty 24.0.0.12 (Java 8 image)
 - **Database**: Oracle Database (JDBC)
 - **Build**: Maven 3.9+
 - **Deployment**: Local Docker (dev and prod Compose)
@@ -136,9 +136,9 @@ All framework versions are defined in `tbd-common/pom.xml`:
 
 ```xml
 <properties>
-  <spring.version>5.3.30</spring.version>
-  <struts.version>2.5.32</struts.version>
-  <hibernate.version>5.6.15.Final</hibernate.version>
+  <spring.version>5.3.39</spring.version>
+  <struts.version>6.8.0</struts.version>
+  <jackson.version>2.18.2</jackson.version>
 </properties>
 ```
 
@@ -325,7 +325,7 @@ Database and app URLs are in the main Quick Start section.
 ### Phase 2: Framework Upgrades
 - ⏳ Spring 5 → Spring 6
 - ⏳ Struts 2 → Modern alternative
-- ⏳ Java 11 → Java 17
+- ⏳ Java 8 (Liberty Java 8 image)
 
 ### Phase 3: Modernization
 - ⏳ Microservices architecture

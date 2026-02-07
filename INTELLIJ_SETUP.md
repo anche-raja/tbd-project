@@ -11,7 +11,7 @@ This project is configured for IntelliJ. Use the IDE run configurations instead 
 
 ## 2. Prerequisites
 
-- **JDK 11+**: File → Project Structure → Project → Project SDK.
+- **JDK 8**: File → Project Structure → Project → Project SDK.
 - **Maven**: Use the bundled Maven or your own (Settings → Build, Execution, Deployment → Build Tools → Maven).
 - **Docker**: For running the app in DEV/PROD (optional for building only).
 

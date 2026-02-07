@@ -1,4 +1,4 @@
-FROM icr.io/appcafe/websphere-liberty:24.0.0.12-full-java11-openj9-ubi
+FROM icr.io/appcafe/websphere-liberty:24.0.0.12-full-java8-openj9-ubi
 
 # Copy Liberty server configuration
 COPY liberty/server.xml /config/

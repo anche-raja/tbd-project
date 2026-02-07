@@ -19,10 +19,10 @@ Reusable business services (audit logging, etc.)
 ## Version Strategy
 
 All framework versions are defined in the parent POM and exposed through the BOM:
-- **Spring**: 5.3.30
-- **Struts**: 2.5.32
+- **Spring**: 5.3.39
+- **Struts**: 6.8.0
 - **Hibernate**: 5.6.15.Final
-- **Jackson**: 2.15.2
+- **Jackson**: 2.18.2
 
 ## Usage in Applications
 
